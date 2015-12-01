@@ -19,19 +19,13 @@ def calculate_force(body, space_objects):
     """
 
     body.Fx = body.Fy = 0
+    body.Fx = body.Fy = 0
     for obj in space_objects:
-        mrcx += object.m * object.x
-        mrcy += object.m * object.y
-    for obj in space_objects:
-        M += object.m
-    rcx = mrcx / M
-    rcy = mrcy / M
-    rc = (rcx ** 2 + rcy ** 2) ** 0.5
-    for obj in space_objects:
-        if obj == body:
+        if body == obj:
             continue
-        body.Fx += body.m * M * gravitational_constant * rcx / rc ** 3
-        body.Fy += body.m * M * gravitational_constant * rcy / rc ** 3
+        r = ((body.x - obj.x)**2 + (body.y - obj.y)**2)**0.5
+        body.Fx += body.m * obj.m * G * (body.x-obj.x) * (r)**-3
+        body.Fy += body.m * obj.m * G * (body.y-obj.y) * (r)**-3
 
 
 def move_space_object(body, dt):
